@@ -1,14 +1,10 @@
-from flask import Flask
+FROM python:3.8
 
-# Create a Flask application
-app = Flask(__name__)
+EXPOSE 8080
+WORKDIR /app
 
-# Define a route for the root URL
-@app.route('/')
-def hello_world():
-    return 'Hello, World App 1!'
+COPY . ./
 
-# Run the Flask application if this file is executed directly
-if __name__ == '__main__':
-    app.run(debug=True, port=8080,host='0.0.0.0')
+RUN pip install -r requirements.txt
 
+CMD ["python", "app.py"]
