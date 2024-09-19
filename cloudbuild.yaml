@@ -1,25 +1,25 @@
 steps:
-- name: 'building docker image'
+- name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'app1-image', './app1' ]
   id: 'Build Docker Image'
 
-- name: 'tagging docker image for artifact registry'
+- name: 'gcr.io/cloud-builders/docker'
   args: ['tag', 'app1-image','us-central1-docker.pkg.dev/devops-8998/gke-cicd-repo/app1-image']
   id: 'Tag Docker Image'
 
-- name: 'pushing image to artifact registry'
+- name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/devops-8998/gke-cicd-repo/app1-image' ]
   id: 'Push Docker Image'
 
-- name: 'building docker image2'
+- name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'app2-image', './app2' ]
   id: 'Build Docker Image2'
 
-- name: 'tagging docker image2 for artifact registry'
+- name: 'gcr.io/cloud-builders/docker'
   args: ['tag', 'app2-image','us-central1-docker.pkg.dev/devops-8998/gke-cicd-repo/app2-image']
   id: 'Tag Docker Image2'
 
-- name: 'pushing image2 to artifact registry'
+- name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/devops-8998/gke-cicd-repo/app2-image' ]
   id: 'Push Docker Image2'
 
