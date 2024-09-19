@@ -1,0 +1,41 @@
+steps:
+- name: 'building docker image'
+  args: ['build', '-t', 'app1-image', './app1' ]
+  id: 'Build Docker Image'
+
+- name: 'tagging docker image for artifact registry'
+  args: ['tag', 'app1-image','us-central1-docker.pkg.dev/devops-8998/gke-cicd-repo/app1-image']
+  id: 'Tag Docker Image'
+
+- name: 'pushing image to artifact registry'
+  args: ['push', 'us-central1-docker.pkg.dev/devops-8998/gke-cicd-repo/app1-image' ]
+  id: 'Push Docker Image'
+
+- name: 'building docker image2'
+  args: ['build', '-t', 'app2-image', './app2' ]
+  id: 'Build Docker Image2'
+
+- name: 'tagging docker image2 for artifact registry'
+  args: ['tag', 'app2-image','us-central1-docker.pkg.dev/devops-8998/gke-cicd-repo/app2-image']
+  id: 'Tag Docker Image2'
+
+- name: 'pushing image2 to artifact registry'
+  args: ['push', 'us-central1-docker.pkg.dev/devops-8998/gke-cicd-repo/app2-image' ]
+  id: 'Push Docker Image2'
+
+- name: 'google/cloud-sdk:latest'
+  entrypoint: 'sh'
+  args:
+  - -xe
+  - -c
+  - |
+    gcloud deploy apply --file deploy/pipeline.yaml --region=us-central1
+    gcloud deploy apply --file deploy/dev.yaml --region=us-central1
+    gcloud deploy apply --file deploy/prod.yaml --region=us-central1
+    gcloud deploy releases create 'app1-release-${SHORT_SHA}' --delivery-pipeline=gke-cicd-pipeline --region=asia-south2-b --from-k8s-manifest=./kubernetes/app1.yaml
+    gcloud deploy releases create 'app2-release-${SHORT_SHA}' --delivery-pipeline=gke-cicd-pipeline --region=us-central1-c --from-k8s-manifest=./kubernetes/app2.yaml
+
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
