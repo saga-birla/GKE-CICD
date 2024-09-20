@@ -23,7 +23,7 @@ steps:
   args: ['push', 'us-central1-docker.pkg.dev/devops-8998/gke-cicd-repo/app2-image' ]
   id: 'Push Docker Image2'
 
-- name: 'gcr.io/cloud-builders/cloud-sdk'
+- name: google/cloud-sdk
   entrypoint: 'sh'
   args:
   - -xe
