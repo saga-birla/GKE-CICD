@@ -8,3 +8,4 @@ description: prod
 requireApproval: true
 gke:
   cluster: projects/devops-8998/locations/us-central1-c/clusters/cluster-2
+
